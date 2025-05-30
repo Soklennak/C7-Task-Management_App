@@ -1,4 +1,5 @@
 export class Task {
+    private static allTasks: Task[] = [];
     private id: number;
     private title: string;
     private description: string;
@@ -11,6 +12,7 @@ export class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.status = status;
+        Task.allTasks.push(this);
     }
 
     public getId(): number {
@@ -41,5 +43,10 @@ export class Task {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
+    }
+
+    // Get all tasks
+    public static getAllTasks(): Task[] {
+        return Task.allTasks;
     }
 }
