@@ -3,7 +3,7 @@ import { Status } from "./EnumStatus";
 import { Priority } from "./EnumPriority";
 
 export class RecurringTask extends Task {
-  private recurrencePattern: string; // e.g. "daily", "weekly", "monthly"
+  private recurrencePattern: "daily" | "weekly" | "monthly";
   private nextOccurrence: Date;
 
   constructor(
@@ -13,7 +13,7 @@ export class RecurringTask extends Task {
     dueDate: Date,
     priority: Priority,
     status: Status,
-    recurrencePattern: string,
+    recurrencePattern: "daily" | "weekly" | "monthly",
     nextOccurrence: Date
   ) {
     super(id, title, description, dueDate, priority, status);
@@ -21,7 +21,7 @@ export class RecurringTask extends Task {
     this.nextOccurrence = nextOccurrence;
   }
 
-  public getRecurrencePattern(): string {
+  public getRecurrencePattern(): "daily" | "weekly" | "monthly" {
     return this.recurrencePattern;
   }
 
@@ -32,7 +32,7 @@ export class RecurringTask extends Task {
   public updateNextOccurrence(): void {
     const next = new Date(this.nextOccurrence);
 
-    switch (this.recurrencePattern.toLowerCase()) {
+    switch (this.recurrencePattern) {
       case "daily":
         next.setDate(next.getDate() + 1);
         break;
@@ -42,8 +42,6 @@ export class RecurringTask extends Task {
       case "monthly":
         next.setMonth(next.getMonth() + 1);
         break;
-      default:
-        throw new Error("Invalid recurrence pattern");
     }
 
     this.nextOccurrence = next;
