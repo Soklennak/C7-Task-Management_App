@@ -13,6 +13,10 @@ export class Task {
         this.status = status;
     }
 
+    public getId(): number {
+        return this.id;
+    }
+
     public getTitle(): string {
         return this.title;
     }
@@ -31,5 +35,11 @@ export class Task {
 
     public updateStatus(newStatus: string): void {
         this.status = newStatus;
+    }
+
+    public uppdateTask(title: string, description: string, dueDate: Date): void {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
     }
 }
