@@ -1,0 +1,35 @@
+export class Task {
+    private id: number;
+    private title: string;
+    private description: string;
+    private dueDate: Date;
+    private status: string;
+
+    constructor(id: number,title: string, description: string, dueDate: Date, status: string) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.status = status;
+    }
+
+    public getTitle(): string {
+        return this.title;
+    }
+
+    public getDescription(): string {
+        return this.description;
+    }
+
+    public getDueDate(): Date {
+        return this.dueDate;
+    }
+
+    public getStatus(): string {
+        return this.status;
+    }
+
+    public updateStatus(newStatus: string): void {
+        this.status = newStatus;
+    }
+}
