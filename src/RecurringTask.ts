@@ -1,6 +1,6 @@
 import { Task } from "./Task";
-import { Status } from "./enums/Status";
-import { Priority } from "./enums/Priority";
+import { Status } from "./EnumStatus";
+import { Priority } from "./EnumPriority";
 
 export class RecurringTask extends Task {
   private recurrencePattern: string; // e.g. "daily", "weekly", "monthly"
