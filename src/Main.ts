@@ -1,5 +1,7 @@
 import { Task } from "./Task";
 import { User } from "./User";
+import { Reminder } from "./Reminder";
+import { Project } from "./Project";
 
 // Create a new user
 let chhorrina = new User("Chhorrina", "1234567890", "rian@.com", "password123", "273, Sorla");
@@ -38,3 +40,25 @@ console.log(`👥 Team member added: ${soklen.getName()} added to ${oopProject.g
 
 // Logout simulation
 chhorrina.logout();
+
+
+// Reminder for a task
+let reminder = new Reminder(task1, new Date("2025-06-04")); 
+console.log(`⏰ Reminder set for task "${task1.getTitle()}" on ${reminder.getNotifyDate().toDateString()}.`);
+// Get upcoming tasks       
+let upcomingTasks = reminder.getUpcomingTasks();
+if (upcomingTasks.length > 0) {
+    console.log("🔔 Upcoming tasks:");
+    upcomingTasks.forEach(task => {
+        console.log(`- ${task.getTitle()} [Due: ${task.getDueDate().toDateString()}]`);
+    });
+}
+// Cancel the reminder
+reminder.cancelReminder();      
+
+// Show all tasks after reminder cancellation
+console.log("\n📋 All tasks in the project after reminder cancellation:");
+Task.getAllTasks().forEach(task => {
+    console.log(`- ${task.getTitle()} [Due: ${task.getDueDate().toDateString()}] - Status: ${task.getStatus()}`);
+});
+
