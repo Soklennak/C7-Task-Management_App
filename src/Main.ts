@@ -56,13 +56,11 @@ Task.getAllTasks().forEach(task => {
     }
 });
 
-// Logout simulation
-chhorrina.logout();
-
 
 // Reminder for a task
 let reminder = new Reminder(task1, new Date("2025-06-04")); 
 console.log(`⏰ Reminder set for task "${task1.getTitle()}" on ${reminder.getNotifyDate().toDateString()}.`);
+
 // Get upcoming tasks       
 let upcomingTasks = reminder.getUpcomingTasks();
 if (upcomingTasks.length > 0) {
@@ -71,6 +69,7 @@ if (upcomingTasks.length > 0) {
         console.log(`- ${task.getTitle()} [Due: ${task.getDueDate().toDateString()}]`);
     });
 }
+
 // Cancel the reminder
 reminder.cancelReminder();      
 
@@ -80,3 +79,5 @@ Task.getAllTasks().forEach(task => {
     console.log(`- ${task.getTitle()} [Due: ${task.getDueDate().toDateString()}] - Status: ${task.getStatus()}`);
 });
 
+// Logout simulation
+chhorrina.logout();
