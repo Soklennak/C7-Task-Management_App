@@ -15,4 +15,7 @@ export class Attachment{
     public getFilePath(): string{
         return this.filePath;
     }
+    public setFilePath(filePath: string): void{
+        this.filePath = filePath;
+    }
 }
