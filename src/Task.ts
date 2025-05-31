@@ -1,6 +1,10 @@
 import { Comment } from "./Comment";
+import { User } from "./User";
 
 export class Task {
+    assignTo(user: User) {
+        throw new Error("Method not implemented.");
+    }
     private static allTasks: Task[] = [];
     private id: number;
     private title: string;
