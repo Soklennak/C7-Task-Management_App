@@ -1,5 +1,6 @@
 import { Project } from "./Project";
 import { Task } from "./Task";
+import { Comment } from "./Comment";
 
 export class User {
     private name: string;
@@ -91,5 +92,12 @@ export class User {
     public addTeamMember(member: User): void {
         this.teamMembers.push(member);
         console.log(`${this.name} has added a new team member: ${member.getName()}`);
+    }
+
+    // Add comment to a task
+    public addCommentToTask(task: Task, content: string): void {
+        const comment = new Comment(this, task, content);
+        task.addComment(comment);
+        console.log(`${this.name} commented on task "${task.getTitle()}": "${content}"`);
     }
 }
