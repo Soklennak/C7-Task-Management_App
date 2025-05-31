@@ -14,6 +14,7 @@ export class RecurringTask extends Task {
     priority: Priority,
     status: Status,
     recurrencePattern: "daily" | "weekly" | "monthly",
+    
     nextOccurrence: Date
   ) {
     super(id, title, description, dueDate, priority, status);
