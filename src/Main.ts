@@ -4,6 +4,7 @@ import { User } from "./User";
 // Create a new user
 let chhorrina = new User("Chhorrina", "1234567890", "rian@.com", "password123", "273, Sorla");
 let soklen = new User("Soklen", "0987654321", "soklen@.com", "password456", "123, Sorla");
+let bunyoung = new User("Bunyoung", "1122334455", "bunyoung@.com", "password789", "456, Sorla");
 
 // Login simulation
 console.log(`✅ ${chhorrina.getName()} has logged in.`);
@@ -35,6 +36,23 @@ chhorrina.addTeamName("Task Management Team");
 chhorrina.addTeamMember(soklen);
 console.log(`👥 Team member added: ${soklen.getName()} added to ${oopProject.getName()}`);
 
+
+// Add comment
+chhorrina.addCommentToTask(task1, "This is a critical task. Please prioritize it.");
+soklen.addCommentToTask(task2, "I will work on this task next week.");
+bunyoung.addCommentToTask(task1, "I have completed my part of the task.");
+
+Task.getAllTasks().forEach(task => {
+    const comments = task.getComments();
+    if (comments.length > 0) {
+        console.log(`\n📌 Task: ${task.getTitle()}`);
+        comments.forEach(comment => {
+            console.log(`- ${comment.getUser().getName()}: ${comment.getContent()}`);
+        });
+    } else {
+        console.log(`\n📌 Task: ${task.getTitle()} — No comments yet.`);
+    }
+});
 
 // Logout simulation
 chhorrina.logout();

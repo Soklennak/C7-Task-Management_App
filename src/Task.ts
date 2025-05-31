@@ -1,3 +1,5 @@
+import { Comment } from "./Comment";
+
 export class Task {
     private static allTasks: Task[] = [];
     private id: number;
@@ -5,6 +7,7 @@ export class Task {
     private description: string;
     private dueDate: Date;
     private status: string;
+    private comments: Comment[] = [];
 
     constructor(id: number,title: string, description: string, dueDate: Date, status: string) {
         this.id = id;
@@ -48,5 +51,15 @@ export class Task {
     // Get all tasks
     public static getAllTasks(): Task[] {
         return Task.allTasks;
+    }
+
+    // Add comment to task
+    public addComment(comment: Comment): void {
+        this.comments.push(comment);
+    }
+
+    // Get all comments
+    public getComments(): Comment[] {
+        return this.comments;
     }
 }
