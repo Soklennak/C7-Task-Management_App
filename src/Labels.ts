@@ -1,20 +1,25 @@
-// Label.ts
 import { Task } from "./Task";
 
 export class Label {
   private name: string;
-  private task: Task;
+  private tasks: Task[] = [];
 
-  constructor(name: string, task: Task) {
+  constructor(name: string) {
     this.name = name;
-    this.task = task;
   }
 
   public getName(): string {
     return this.name;
   }
 
-  public getTask(): Task {
-    return this.task;
+  public addTask(task: Task): void {
+    if (!this.tasks.includes(task)) {
+      this.tasks.push(task);
+      task.addLabel(this); // maintain two-way link
+    }
+  }
+
+  public getTasks(): Task[] {
+    return this.tasks;
   }
 }

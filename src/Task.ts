@@ -1,15 +1,23 @@
 import { Comment } from "./Comment";
+import { Status } from "./EnumStatus";
+import { User } from "./User";
+import { Label } from "./Labels";
 
 export class Task {
+    assignTo(user: User) {
+        throw new Error("Method not implemented.");
+    }
     private static allTasks: Task[] = [];
     private id: number;
     private title: string;
     private description: string;
     private dueDate: Date;
-    private status: string;
+    private status: Status;
     private comments: Comment[] = [];
+    private labels: Label[] = [];
 
-    constructor(id: number,title: string, description: string, dueDate: Date, status: string) {
+
+    constructor(id: number,title: string, description: string, dueDate: Date, status: Status) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -38,7 +46,7 @@ export class Task {
         return this.status;
     }
 
-    public updateStatus(newStatus: string): void {
+    public updateStatus(newStatus: Status): void {
         this.status = newStatus;
     }
 
@@ -62,4 +70,14 @@ export class Task {
     public getComments(): Comment[] {
         return this.comments;
     }
+    public addLabel(label: Label): void {
+    if (!this.labels.includes(label)) {
+      this.labels.push(label);
+    }
+  }
+
+  public getLabels(): Label[] {
+    return this.labels;
+  }
 }
+

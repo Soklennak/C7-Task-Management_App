@@ -2,6 +2,9 @@ import { Task } from "./Task";
 import { User } from "./User";
 import { Reminder } from "./Reminder";
 import { Project } from "./Project";
+import { Label } from "./Labels";
+import { Priority } from "./EnumPriority";
+import { Status } from "./EnumStatus";
 
 // Create a new user
 let chhorrina = new User("Chhorrina", "1234567890", "rian@.com", "password123", "273, Sorla");
@@ -16,8 +19,11 @@ let oopProject = chhorrina.addProject(1, "OOP Project", "A task management app b
 console.log(`📁 Project created: ${oopProject.getName()}`);
 
 // Create tasks
-let task1 = new Task(1, "Team", "Team can has many projec", new Date("2025-06-05"), "pending");
-let task2 = new Task(2, "Dashboard", "Show dashbaord of user", new Date("2025-06-06"), "pending");
+let task1 = new Task(1, "Team", "Team can has many projec", new Date("2025-06-05"), Status.PENDING);
+let task2 = new Task(2, "Dashboard", "Show dashbaord of user", new Date("2025-06-06"), Status.INPROGRESS);
+let task3 = new Task(3, "SpecialTask", "task for volunteer event", new Date("2025-06-05"), Status.PENDING);
+let task4 = new Task(4, "Urgentreport", "task for QA", new Date("2025-06-05"), Status.INPROGRESS);
+
 
 // Add tasks to the project
 oopProject.addTask(task1);
@@ -81,3 +87,26 @@ Task.getAllTasks().forEach(task => {
 
 // Logout simulation
 chhorrina.logout();
+
+//labels 
+// Create labels
+const labelUrgent = new Label("URGENT");
+const labelHome = new Label("HOME");
+const labelWork = new Label("WORK");
+
+// Assign labels to tasks
+labelUrgent.addTask(task1);
+labelUrgent.addTask(task4);
+labelHome.addTask(task2);
+labelWork.addTask(task3);
+
+// 🏷️ Show labels with tasks
+console.log("\n🏷️ All labels and their tasks:");
+const allLabels = [labelUrgent, labelHome, labelWork];
+allLabels.forEach(label => {
+  console.log(`- ${label.getName()}:`);
+  label.getTasks().forEach(task => {
+    console.log(`   • ${task.getTitle()}`);
+  });
+});
+
