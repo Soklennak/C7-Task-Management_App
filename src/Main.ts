@@ -5,6 +5,7 @@ import { Project } from "./Project";
 import { Label } from "./Labels";
 import { Priority } from "./EnumPriority";
 import { Status } from "./EnumStatus";
+import { Dashboard } from "./Dashboard";
 
 // Create a new user
 let chhorrina = new User("Chhorrina", "1234567890", "rian@.com", "password123", "273, Sorla");
@@ -110,3 +111,47 @@ allLabels.forEach(label => {
   });
 });
 
+
+// 📊 DASHBOARD SUMMARY
+
+console.log("\n📊 DASHBOARD SUMMARY");
+
+// USERS
+console.log("\n👤 USERS:");
+Dashboard.getAllUsers().forEach(user => {
+    console.log(`- ${user.getName()}`);
+});
+
+// PROJECTS
+console.log("\n📁 PROJECT:");
+console.log(`- ${oopProject.getName()} (${oopProject.getTasks().length} tasks)`);
+
+// TASKS
+console.log("\n📝 TASKS:");
+Task.getAllTasks().forEach(task => {
+    console.log(`- ${task.getTitle()} [Due: ${task.getDueDate().toDateString()}] - Status: ${task.getStatus()}`);
+});
+
+// COMMENTS PER TASK
+console.log("\n💬 TASK COMMENTS:");
+Task.getAllTasks().forEach(task => {
+    const comments = task.getComments();
+    if (comments.length > 0) {
+        console.log(`📌 ${task.getTitle()}:`);
+        comments.forEach(comment => {
+            console.log(`   - ${comment.getUser().getName()}: ${comment.getContent()}`);
+        });
+    }
+});
+
+// LABELS
+console.log("\n🏷️ LABELS & TASKS:");
+Dashboard.getAllLabels().forEach(label => {
+    console.log(`- ${label.getName()}:`);
+    label.getTasks().forEach(task => {
+        console.log(`   • ${task.getTitle()}`);
+    });
+});
+
+// LOGOUT
+console.log(`\n🚪 ${chhorrina.getName()} has logged out.`);
