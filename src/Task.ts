@@ -2,6 +2,7 @@ import { Comment } from "./Comment";
 import { Status } from "./EnumStatus";
 import { User } from "./User";
 import { Label } from "./Labels";
+import { Report } from "./Report";
 
 export class Task {
     assignTo(user: User) {
