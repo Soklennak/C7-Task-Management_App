@@ -2,7 +2,7 @@ import { Label } from "./Labels";
 import { Task } from "./Task";
 import { User } from "./User";
 
-export class Dashboard {
+export abstract class Dashboard {
     private static allUsers: User[] = [];
     private static allTasks: Task[] = [];
     private static allLabels: Label[] = [];
