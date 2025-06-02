@@ -5,18 +5,20 @@ export class Notification{
     private user: User;
     private task: Task;
     private message: string;
+    private timestamp: Date = new Date();
     private read: boolean = false;
     static notifications: Notification[] = [];
     
-    constructor(user: User, task: Task, message: string){
+    constructor(user: User, task: Task, message: string, timestamp: Date) {
         this.user = user;
         this.task = task;
         this.message = message;
+        this.timestamp = new Date();
         Notification.notifications.push(this);
     }
 
-    public sendTo(user: User, task: Task, message: string): void {
-        new Notification(user, task, message);
+    public sendTo(user: User, task: Task, message: string, timestamp: Date): void {
+        new Notification(user, task, message, timestamp);
     }
 
     public static getAllForUser(user: User): Notification[] {
@@ -37,6 +39,10 @@ export class Notification{
 
     public getMessage(): string {
         return this.message;
+    }
+
+    public getTimestamp(): Date {
+        return this.timestamp;
     }
 
     public isRead(): boolean {
