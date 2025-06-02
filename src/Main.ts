@@ -3,8 +3,10 @@ import { User } from "./User";
 import { Reminder } from "./Reminder";
 import { Project } from "./Project";
 import { Label } from "./Labels";
-import { Priority } from "./EnumPriority";
+import { Priority } from "./EnumPriority";      
 import { Status } from "./EnumStatus";
+import { Dashboard } from "./Dashboard";
+import { Report } from "./Report";
 
 // Create a new user
 let chhorrina = new User("Chhorrina", "1234567890", "rian@.com", "password123", "273, Sorla");
@@ -22,7 +24,7 @@ console.log(`📁 Project created: ${oopProject.getName()}`);
 let task1 = new Task(1, "Team", "Team can has many projec", new Date("2025-06-05"), Status.PENDING);
 let task2 = new Task(2, "Dashboard", "Show dashbaord of user", new Date("2025-06-06"), Status.INPROGRESS);
 let task3 = new Task(3, "SpecialTask", "task for volunteer event", new Date("2025-06-05"), Status.PENDING);
-let task4 = new Task(4, "Urgentreport", "task for QA", new Date("2025-06-05"), Status.INPROGRESS);
+let task4 = new Task(4, "Urgentreport", "task for QA", new Date("2025-06-05"), Status.COMPLETED);
 
 
 // Add tasks to the project
@@ -110,3 +112,44 @@ allLabels.forEach(label => {
   });
 });
 
+
+// 📊 DASHBOARD SUMMARY
+
+console.log("\n📊 DASHBOARD SUMMARY");
+
+// USERS
+console.log("\n👤 USERS:");
+Dashboard.getAllUsers().forEach(user => {
+    console.log(`- ${user.getName()}`);
+});
+
+// PROJECTS
+console.log("\n📁 PROJECT:");
+console.log(`- ${oopProject.getName()} (${oopProject.getTasks().length} tasks)`);
+
+// TASKS
+console.log("\n📝 TASKS:");
+Task.getAllTasks().forEach(task => {
+    console.log(`- ${task.getTitle()} [Due: ${task.getDueDate().toDateString()}] - Status: ${task.getStatus()}`);
+});
+
+// COMMENTS PER TASK
+console.log("\n💬 TASK COMMENTS:");
+Task.getAllTasks().forEach(task => {
+    const comments = task.getComments();
+    if (comments.length > 0) {
+        console.log(`📌 ${task.getTitle()}:`);
+        comments.forEach(comment => {
+            console.log(`   - ${comment.getUser().getName()}: ${comment.getContent()}`);
+        });
+    }
+});
+
+// LOGOUT
+
+// Generate a report for the project
+const report = new Report(oopProject);
+
+report.generate();
+report.generateSummary();
+// Generate a productivity report
