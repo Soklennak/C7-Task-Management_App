@@ -39,4 +39,8 @@ export class Notification{
         return this.message;
     }
 
+    public isRead(): boolean {
+        return this.read;
+    }
+
 }
