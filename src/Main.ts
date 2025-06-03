@@ -8,6 +8,7 @@ import { Status } from "./EnumStatus";
 import { Dashboard } from "./Dashboard";
 import { Notification } from "./Notification";
 import { Attachment } from "./Attachment";
+import { Profile } from "./Profile";
 
 // Create Users
 let chhorrina = new User(
