@@ -7,149 +7,289 @@ import { Priority } from "./EnumPriority";
 import { Status } from "./EnumStatus";
 import { Dashboard } from "./Dashboard";
 import { Report } from "./Report";
+import { Notification } from "./Notification";
+import { Attachment } from "./Attachment";
 
-// Create a new user
-let chhorrina = new User("Chhorrina", "1234567890", "rian@.com", "password123", "273, Sorla");
-let soklen = new User("Soklen", "0987654321", "soklen@.com", "password456", "123, Sorla");
-let bunyoung = new User("Bunyoung", "1122334455", "bunyoung@.com", "password789", "456, Sorla");
+// Create Users
+let chhorrina = new User(
+  "Chhorrina",
+  "1234567890",
+  "rian@.com",
+  "password123",
+  "273, Sorla"
+);
+let soklen = new User(
+  "Soklen",
+  "0987654321",
+  "soklen@.com",
+  "password456",
+  "123, Sorla"
+);
+let bunyoung = new User(
+  "Bunyoung",
+  "1122334455",
+  "bunyoung@.com",
+  "password789",
+  "456, Sorla"
+);
 
-// Login simulation
 console.log(`✅ ${chhorrina.getName()} has logged in.`);
 
-// Create a new project
-let oopProject = chhorrina.addProject(1, "OOP Project", "A task management app built with OOP principles.");
+// Create Project
+let oopProject = chhorrina.addProject(
+  1,
+  "OOP Project",
+  "A task management app built with OOP principles."
+);
 console.log(`📁 Project created: ${oopProject.getName()}`);
 
-// Create tasks
-let task1 = new Task(1, "Team", "Team can has many projec", new Date("2025-06-05"), Status.PENDING);
-let task2 = new Task(2, "Dashboard", "Show dashbaord of user", new Date("2025-06-06"), Status.INPROGRESS);
-let task3 = new Task(3, "SpecialTask", "task for volunteer event", new Date("2025-06-05"), Status.PENDING);
-let task4 = new Task(4, "Urgentreport", "task for QA", new Date("2025-06-05"), Status.COMPLETED);
+// Create Tasks
+let task1 = new Task(
+  1,
+  "Team",
+  "Team can have many projects",
+  new Date("2025-06-05"),
+  Status.PENDING
+);
+let task2 = new Task(
+  2,
+  "Dashboard",
+  "Show dashboard of user",
+  new Date("2025-06-06"),
+  Status.INPROGRESS
+);
+let task3 = new Task(
+  3,
+  "SpecialTask",
+  "Task for volunteer event",
+  new Date("2025-06-05"),
+  Status.PENDING
+);
+let task4 = new Task(
+  4,
+  "UrgentReport",
+  "Task for QA",
+  new Date("2025-06-05"),
+  Status.INPROGRESS
+);
 
-
-// Add tasks to the project
+// Add Tasks to Project
 oopProject.addTask(task1);
 oopProject.addTask(task2);
+console.log(
+  `📝 Tasks have been added to the project "${oopProject.getName()}".`
+);
 
-console.log(`📝 Tasks have been added to the project "${oopProject.getName()}".`);
-
-// Show all tasks from Task static storage
+// Display All Tasks
 console.log("\n📋 All tasks in the project:");
-Task.getAllTasks().forEach(task => {
-    console.log(`- ${task.getTitle()} [Due: ${task.getDueDate().toDateString()}] - Status: ${task.getStatus()}`);
+Task.getAllTasks().forEach((task) => {
+  console.log(
+    `- ${task.getTitle()} [Due: ${task
+      .getDueDate()
+      .toDateString()}] - Status: ${task.getStatus()}`
+  );
 });
 
-// Add team name
+// Add Team Name and Members
 chhorrina.addTeamName("Task Management Team");
-
-// Add new team member
 chhorrina.addTeamMember(soklen);
-console.log(`👥 Team member added: ${soklen.getName()} added to ${oopProject.getName()}`);
+console.log(
+  `👥 Team member added: ${soklen.getName()} to project "${oopProject.getName()}"`
+);
 
-
-// Add comment
-chhorrina.addCommentToTask(task1, "This is a critical task. Please prioritize it.");
+// Add Comments to Tasks
+chhorrina.addCommentToTask(
+  task1,
+  "This is a critical task. Please prioritize it."
+);
 soklen.addCommentToTask(task2, "I will work on this task next week.");
 bunyoung.addCommentToTask(task1, "I have completed my part of the task.");
 
-Task.getAllTasks().forEach(task => {
-    const comments = task.getComments();
-    if (comments.length > 0) {
-        console.log(`\n📌 Task: ${task.getTitle()}`);
-        comments.forEach(comment => {
-            console.log(`- ${comment.getUser().getName()}: ${comment.getContent()}`);
-        });
-    } else {
-        console.log(`\n📌 Task: ${task.getTitle()} — No comments yet.`);
-    }
+// Display Comments
+Task.getAllTasks().forEach((task) => {
+  const comments = task.getComments();
+  console.log(`\n📌 Task: ${task.getTitle()}`);
+  if (comments.length > 0) {
+    comments.forEach((comment) => {
+      console.log(`- ${comment.getUser().getName()}: ${comment.getContent()}`);
+    });
+  } else {
+    console.log("- No comments yet.");
+  }
 });
 
+//  Reminder for Task
+let reminder = new Reminder(task1, new Date("2025-06-04"));
+console.log(
+  `⏰ Reminder set for task "${task1.getTitle()}" on ${reminder
+    .getNotifyDate()
+    .toDateString()}.`
+);
 
-// Reminder for a task
-let reminder = new Reminder(task1, new Date("2025-06-04")); 
-console.log(`⏰ Reminder set for task "${task1.getTitle()}" on ${reminder.getNotifyDate().toDateString()}.`);
-
-// Get upcoming tasks       
+// Upcoming Tasks
 let upcomingTasks = reminder.getUpcomingTasks();
 if (upcomingTasks.length > 0) {
-    console.log("🔔 Upcoming tasks:");
-    upcomingTasks.forEach(task => {
-        console.log(`- ${task.getTitle()} [Due: ${task.getDueDate().toDateString()}]`);
-    });
+  console.log("\n🔔 Upcoming tasks:");
+  upcomingTasks.forEach((task) => {
+    console.log(
+      `- ${task.getTitle()} [Due: ${task.getDueDate().toDateString()}]`
+    );
+  });
 }
 
-// Cancel the reminder
-reminder.cancelReminder();      
+// Cancel Reminder
+reminder.cancelReminder();
 
-// Show all tasks after reminder cancellation
+// Show Tasks After Reminder Cancelled
 console.log("\n📋 All tasks in the project after reminder cancellation:");
-Task.getAllTasks().forEach(task => {
-    console.log(`- ${task.getTitle()} [Due: ${task.getDueDate().toDateString()}] - Status: ${task.getStatus()}`);
+Task.getAllTasks().forEach((task) => {
+  console.log(
+    `- ${task.getTitle()} [Due: ${task
+      .getDueDate()
+      .toDateString()}] - Status: ${task.getStatus()}`
+  );
 });
 
-// Logout simulation
-chhorrina.logout();
-
-//labels 
-// Create labels
+// Labels
 const labelUrgent = new Label("URGENT");
 const labelHome = new Label("HOME");
 const labelWork = new Label("WORK");
 
-// Assign labels to tasks
 labelUrgent.addTask(task1);
 labelUrgent.addTask(task4);
 labelHome.addTask(task2);
 labelWork.addTask(task3);
 
-// 🏷️ Show labels with tasks
 console.log("\n🏷️ All labels and their tasks:");
 const allLabels = [labelUrgent, labelHome, labelWork];
-allLabels.forEach(label => {
+allLabels.forEach((label) => {
   console.log(`- ${label.getName()}:`);
-  label.getTasks().forEach(task => {
+  label.getTasks().forEach((task) => {
     console.log(`   • ${task.getTitle()}`);
   });
 });
 
-
-// 📊 DASHBOARD SUMMARY
-
+// Dashboard Summary
 console.log("\n📊 DASHBOARD SUMMARY");
 
 // USERS
 console.log("\n👤 USERS:");
-Dashboard.getAllUsers().forEach(user => {
-    console.log(`- ${user.getName()}`);
+Dashboard.getAllUsers().forEach((user) => {
+  console.log(`- ${user.getName()}`);
 });
 
 // PROJECTS
-console.log("\n📁 PROJECT:");
-console.log(`- ${oopProject.getName()} (${oopProject.getTasks().length} tasks)`);
+console.log("\n📁 PROJECTS:");
+console.log(
+  `- ${oopProject.getName()} (${oopProject.getTasks().length} tasks)`
+);
 
 // TASKS
 console.log("\n📝 TASKS:");
-Task.getAllTasks().forEach(task => {
-    console.log(`- ${task.getTitle()} [Due: ${task.getDueDate().toDateString()}] - Status: ${task.getStatus()}`);
+Task.getAllTasks().forEach((task) => {
+  console.log(
+    `- ${task.getTitle()} [Due: ${task
+      .getDueDate()
+      .toDateString()}] - Status: ${task.getStatus()}`
+  );
 });
 
-// COMMENTS PER TASK
+// COMMENTS
 console.log("\n💬 TASK COMMENTS:");
-Task.getAllTasks().forEach(task => {
-    const comments = task.getComments();
-    if (comments.length > 0) {
-        console.log(`📌 ${task.getTitle()}:`);
-        comments.forEach(comment => {
-            console.log(`   - ${comment.getUser().getName()}: ${comment.getContent()}`);
-        });
-    }
+Task.getAllTasks().forEach((task) => {
+  const comments = task.getComments();
+  if (comments.length > 0) {
+    console.log(`📌 ${task.getTitle()}:`);
+    comments.forEach((comment) => {
+      console.log(
+        `   - ${comment.getUser().getName()}: ${comment.getContent()}`
+      );
+    });
+  }
 });
 
-// LOGOUT
+// LABELS
+console.log("\n🏷️ LABELS & TASKS:");
+Dashboard.getAllLabels().forEach(label => {
+    console.log(`- ${label.getName()}:`);
+    label.getTasks().forEach(task => {
+        console.log(`   • ${task.getTitle()}`);
+    });
+});
 
-// Generate a report for the project
-const report = new Report(oopProject);
+// Notifications
+new Notification(
+  chhorrina,
+  task1,
+  "📝 A new task 'Finish UI' has been assigned to you.",
+  new Date("2025-06-03")
+);
+new Notification(
+  soklen,
+  task2,
+  "🐞 Bug fixing task has been added.",
+  new Date("2025-06-02")
+);
+new Notification(
+  chhorrina,
+  task2,
+  "🚨 Task 'Fix Bugs' has been updated.",
+  new Date("2025-06-09")
+);
 
-report.generate();
-report.generateSummary();
-// Generate a productivity report
+console.log(`\n🔔 Notifications for ${chhorrina.getName()}:`);
+Notification.getAllForUser(chhorrina).forEach((n, index) => {
+  console.log(
+    `${index + 1}. ${n.getMessage()} [Task: ${n
+      .getTask()
+      .getTitle()}] - Read: ${n.isRead()}`
+  );
+});
+
+// Mark Notification as Read
+const userNotifs = Notification.getAllForUser(chhorrina);
+if (userNotifs.length > 0) {
+  userNotifs[0].markAsRead();
+  console.log(
+    `\n✅ Marked first notification as read for ${chhorrina.getName()}`
+  );
+}
+
+// Show Updated Notifications
+console.log(`\n📩 Updated Notifications for ${chhorrina.getName()}:`);
+Notification.getAllForUser(chhorrina).forEach((n, index) => {
+  console.log(`${index + 1}. ${n.getMessage()} - Read: ${n.isRead()}`);
+});
+
+// ---------------------------Attachments---------------------------------
+const attachment1 = new Attachment("docs/specifications.pdf");
+const attachment2 = new Attachment("images/wireframe.png");
+
+// Upload attachments
+attachment1.upload();
+attachment2.upload();
+
+// Add to task1
+task1.addAttachment(attachment1);
+task2.addAttachment(attachment1);
+task2.addAttachment(attachment2);
+task4.addAttachment(attachment2);
+
+// List attachments of each tasks
+console.log("\n📁 All Task Attachments:");
+
+Task.getAllTasks().forEach((task) => {
+  const attachments = task.getAttachments();
+  console.log(`\n📌 Task: ${task.getTitle()}`);
+  if (attachments.length > 0) {
+    attachments.forEach((attachment, index) => {
+      console.log(`   ${index + 1}. ${attachment.getFilePath()}`);
+    });
+  } else {
+    console.log("   ❌ No attachments for this task.");
+  }
+});
+
+// ---------------------------Logout---------------------------------
+chhorrina.logout();
+console.log(`🚪 ${chhorrina.getName()} has logged out.`);
