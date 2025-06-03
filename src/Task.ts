@@ -17,6 +17,7 @@ export class Task {
   private comments: Comment[] = [];
   private labels: Label[] = [];
   private attachments: Attachment[] = [];
+  private collaborators: User[] = [];
 
   constructor(
     id: number,
@@ -95,5 +96,14 @@ export class Task {
     // Add this method to retrieve attachments
     public getAttachments(): Attachment[] {
         return this.attachments;
+    }
+
+    // Add collaborator to task
+      addCollaborator(user: User): void {
+    this.collaborators.push(user);
+    }
+
+    getCollaborators(): User[] {
+        return this.collaborators;
     }
 }
