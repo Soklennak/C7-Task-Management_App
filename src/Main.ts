@@ -3,7 +3,7 @@ import { User } from "./User";
 import { Reminder } from "./Reminder";
 import { Project } from "./Project";
 import { Label } from "./Labels";
-import { Priority } from "./EnumPriority";      
+import { Priority } from "./EnumPriority";
 import { Status } from "./EnumStatus";
 import { Dashboard } from "./Dashboard";
 import { Report } from "./Report";
@@ -48,21 +48,21 @@ let task1 = new Task(
   1,
   "Team",
   "Team can have many projects",
-  new Date("2025-06-05"),
+  new Date("2025-06-01"),
   Status.PENDING
 );
 let task2 = new Task(
   2,
   "Dashboard",
   "Show dashboard of user",
-  new Date("2025-06-06"),
+  new Date("2025-06-02"),
   Status.INPROGRESS
 );
 let task3 = new Task(
   3,
   "SpecialTask",
   "Task for volunteer event",
-  new Date("2025-06-05"),
+  new Date("2025-06-03"),
   Status.PENDING
 );
 let task4 = new Task(
@@ -70,12 +70,22 @@ let task4 = new Task(
   "UrgentReport",
   "Task for QA",
   new Date("2025-06-05"),
-  Status.INPROGRESS
+  Status.COMPLETED
 );
-
+let task5 = new Task(
+  4,
+  "Setup Repo",
+  "Initialize GitHub repository",
+  new Date("2025-06-05"),
+  Status.COMPLETED
+);
+task3.setDelegatedTo("soklen@.com");
 // Add Tasks to Project
 oopProject.addTask(task1);
 oopProject.addTask(task2);
+oopProject.addTask(task3);
+oopProject.addTask(task4);
+oopProject.addTask(task5);
 console.log(
   `📝 Tasks have been added to the project "${oopProject.getName()}".`
 );
@@ -210,11 +220,11 @@ Task.getAllTasks().forEach((task) => {
 
 // LABELS
 console.log("\n🏷️ LABELS & TASKS:");
-Dashboard.getAllLabels().forEach(label => {
-    console.log(`- ${label.getName()}:`);
-    label.getTasks().forEach(task => {
-        console.log(`   • ${task.getTitle()}`);
-    });
+Dashboard.getAllLabels().forEach((label) => {
+  console.log(`- ${label.getName()}:`);
+  label.getTasks().forEach((task) => {
+    console.log(`   • ${task.getTitle()}`);
+  });
 });
 
 // Notifications
@@ -293,3 +303,8 @@ Task.getAllTasks().forEach((task) => {
 // ---------------------------Logout---------------------------------
 chhorrina.logout();
 console.log(`🚪 ${chhorrina.getName()} has logged out.`);
+
+// Generate Repor
+const productivityReport = new Report(oopProject);
+productivityReport.generate();
+// Display Report Text

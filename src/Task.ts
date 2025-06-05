@@ -19,6 +19,7 @@ export class Task {
   private labels: Label[] = [];
   private attachments: Attachment[] = [];
   private collaborators: User[] = [];
+  private delegatedTo?: string;
 
   constructor(
     id: number,
@@ -107,4 +108,10 @@ export class Task {
     getCollaborators(): User[] {
         return this.collaborators;
     }
+    public setDelegatedTo(userEmail: string): void {
+  this.delegatedTo = userEmail;
+}
+public getDelegatedTo(): string | undefined {
+  return this.delegatedTo;
+}
 }

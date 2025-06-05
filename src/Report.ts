@@ -5,45 +5,58 @@ import { Status } from "./EnumStatus";
 export class Report {
   constructor(private project: Project) {}
 
-  getCompletedTasks(): Task[] {
-    return this.project.getTasks().filter(task => task.getStatus() === Status.COMPLETED);
-  }
-
-  getPendingTasks(): Task[] {
-    return this.project.getTasks().filter(task => {
-      const status = task.getStatus();
-      return status === Status.PENDING || status === Status.INPROGRESS;
-    });
-  }
-
-  getMissedTasks(): Task[] {
-    return this.project.getTasks().filter(task => task.getStatus() === Status.MISSED);
-  }
-
-  getDelegatedTasks(): Task[] {
-    return this.project.getTasks().filter(task => task.getStatus() === Status.DELEGATED);
+  private isMissed(task: Task): boolean {
+    return task.getStatus() !== Status.COMPLETED && task.getDueDate() < new Date();
   }
 
   generate(): void {
-    console.log(`== Report for Project: ${this.project.getName()} ==`);
-     
-    console.log("\n✔️ Completed Tasks:");
-    this.getCompletedTasks().forEach(task =>
-      console.log(`- ${task.getTitle()} (ID: ${task.getId()})`)
-    );
+    const tasks = this.project.getTasks();
+    const completed = tasks.filter(task => task.getStatus() === Status.COMPLETED);
+    const missed = tasks.filter(task => this.isMissed(task));
+    const delegated = tasks.filter(task => task.getDelegatedTo() !== undefined);
 
-    console.log("\n⏳ Pending Tasks:");
-    this.getPendingTasks().forEach(task =>
-      console.log(`- ${task.getTitle()} (ID: ${task.getId()})`)
+    console.log(`\n📊 Productivity Report for Project: "${this.project.getName()}"`);
+    console.log(`✅ Completed Tasks: ${completed.length}`);
+    console.log(`❌ Missed Tasks: ${missed.length}`);
+    console.log(`📤 Delegated Tasks: ${delegated.length}`);
+
+    console.log("\nDetails:");
+
+    completed.forEach(task =>
+      console.log(`✔️ [${task.getTitle()}] - Completed.`)
+    );
+    missed.forEach(task =>
+      console.log(`⚠️ [${task.getTitle()}] - Missed. Due: ${task.getDueDate().toDateString()}`)
+    );
+    delegated.forEach(task =>
+      console.log(`➡️ [${task.getTitle()}] - Delegated to ${task.getDelegatedTo()}.`)
     );
   }
 
-  generateSummary(): void {
-    const completedCount = this.getCompletedTasks().length;
-    const missedCount = this.getMissedTasks().length;
-    const delegatedCount = this.getDelegatedTasks().length;
-    console.log(`✔️ Completed Tasks: ${completedCount}`);
-    console.log(`❌ Missed Tasks: ${missedCount}`);
-    console.log(`📤 Delegated Tasks: ${delegatedCount}`);
+  getReportText(): string {
+    const tasks = this.project.getTasks();
+    const completed = tasks.filter(task => task.getStatus() === Status.COMPLETED);
+    const missed = tasks.filter(task => this.isMissed(task));
+    const delegated = tasks.filter(task => task.getDelegatedTo() !== undefined);
+
+    let report = `Productivity Report for Project: ${this.project.getName()}\n`;
+    report += `Completed Tasks: ${completed.length}\n`;
+    report += `Missed Tasks: ${missed.length}\n`;
+    report += `Delegated Tasks: ${delegated.length}\n\n`;
+
+    report += `--- Completed Tasks ---\n`;
+    completed.forEach(task => (report += `✔️ ${task.getTitle()}\n`));
+
+    report += `\n--- Missed Tasks ---\n`;
+    missed.forEach(
+      task => (report += `⚠️ ${task.getTitle()} (Due: ${task.getDueDate().toDateString()})\n`)
+    );
+
+    report += `\n--- Delegated Tasks ---\n`;
+    delegated.forEach(
+      task => (report += `➡️ ${task.getTitle()} → ${task.getDelegatedTo()}\n`)
+    );
+
+    return report;
   }
 }
