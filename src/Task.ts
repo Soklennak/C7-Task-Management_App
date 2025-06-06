@@ -1,9 +1,10 @@
 import { Comment } from "./Comment";
-import { Status } from "./EnumStatus";
+import { Status } from "./Enums/EnumStatus";
 import { User } from "./User";
 import { Label } from "./Labels";
 import { Report } from "./Report";
 import { Attachment } from "./Attachment";
+import { RecurringTask } from "./RecurringTask";
 
 export class Task {
   assignTo(user: User) {
@@ -90,28 +91,33 @@ export class Task {
     return this.labels;
   }
 
-    // Add this method to add an attachment
-    public addAttachment(attachment: Attachment): void {
-        this.attachments.push(attachment);
-    }
+  // Add this method to add an attachment
+  public addAttachment(attachment: Attachment): void {
+    this.attachments.push(attachment);
+  }
 
-    // Add this method to retrieve attachments
-    public getAttachments(): Attachment[] {
-        return this.attachments;
-    }
+  // Add this method to retrieve attachments
+  public getAttachments(): Attachment[] {
+    return this.attachments;
+  }
 
-    // Add collaborator to task
-      addCollaborator(user: User): void {
+  // Add collaborator to task
+  addCollaborator(user: User): void {
     this.collaborators.push(user);
-    }
+  }
 
-    getCollaborators(): User[] {
-        return this.collaborators;
-    }
-    public setDelegatedTo(userEmail: string): void {
-  this.delegatedTo = userEmail;
-}
-public getDelegatedTo(): string | undefined {
-  return this.delegatedTo;
-}
+  getCollaborators(): User[] {
+    return this.collaborators;
+  }
+  public setDelegatedTo(userEmail: string): void {
+    this.delegatedTo = userEmail;
+  }
+  public getDelegatedTo(): string | undefined {
+    return this.delegatedTo;
+  }
+  public updateTask(title: string, description: string, dueDate: Date): void {
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+  }
 }

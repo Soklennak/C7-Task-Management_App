@@ -1,29 +1,23 @@
 import { Task } from "./Task";
-import { Status } from "./EnumStatus";
-import { Priority } from "./EnumPriority";
+import { Status } from "./Enums/EnumStatus";
 
-export class RecurringTask extends Task {
-  private recurrencePattern: "daily" | "weekly" | "monthly";
+export class RecurringTask {
+  private task: Task;
+  private repeatInterval: "daily" | "weekly" | "monthly";
   private nextOccurrence: Date;
 
   constructor(
-    id: number,
-    title: string,
-    description: string,
-    dueDate: Date,
-    priority: Priority,
-    status: Status,
-    recurrencePattern: "daily" | "weekly" | "monthly",
-    
+    task: Task,
+    repeatInterval: "daily" | "weekly" | "monthly",
     nextOccurrence: Date
   ) {
-    super(id, title, description, dueDate, priority, status);
-    this.recurrencePattern = recurrencePattern;
+    this.task = task;
+    this.repeatInterval = repeatInterval;
     this.nextOccurrence = nextOccurrence;
   }
 
-  public getRecurrencePattern(): "daily" | "weekly" | "monthly" {
-    return this.recurrencePattern;
+  public getTask(): Task {
+    return this.task;
   }
 
   public getNextOccurrence(): Date {
@@ -31,20 +25,38 @@ export class RecurringTask extends Task {
   }
 
   public updateNextOccurrence(): void {
-    const next = new Date(this.nextOccurrence);
-
-    switch (this.recurrencePattern) {
+    const newDate = new Date(this.nextOccurrence);
+    switch (this.repeatInterval) {
       case "daily":
-        next.setDate(next.getDate() + 1);
+        newDate.setDate(newDate.getDate() + 1);
         break;
       case "weekly":
-        next.setDate(next.getDate() + 7);
+        newDate.setDate(newDate.getDate() + 7);
         break;
       case "monthly":
-        next.setMonth(next.getMonth() + 1);
+        newDate.setMonth(newDate.getMonth() + 1);
         break;
     }
+    this.nextOccurrence = newDate;
+    this.task.updateTask(
+      this.task.getTitle(),
+      this.task.getDescription(),
+      newDate
+    );
+  }
 
-    this.nextOccurrence = next;
+  public static generateNextTask(current: RecurringTask): RecurringTask {
+    const oldTask = current.getTask();
+    const newDueDate = current.getNextOccurrence();
+
+    const newTask = new Task(
+      oldTask.getId() + 1, // You may want to replace this with an auto-generated ID system
+      oldTask.getTitle(),
+      oldTask.getDescription(),
+      newDueDate,
+      Status.PENDING
+    );
+
+    return new RecurringTask(newTask, current.repeatInterval, newDueDate);
   }
 }

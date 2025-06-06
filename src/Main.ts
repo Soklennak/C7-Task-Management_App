@@ -3,12 +3,13 @@ import { User } from "./User";
 import { Reminder } from "./Reminder";
 import { Project } from "./Project";
 import { Label } from "./Labels";
-import { Priority } from "./EnumPriority";
-import { Status } from "./EnumStatus";
+import { Priority } from "./Enums/EnumPriority";  
+import { Status } from "./Enums/EnumStatus";
 import { Dashboard } from "./Dashboard";
 import { Report } from "./Report";
 import { Notification } from "./Notification";
 import { Attachment } from "./Attachment";
+import { RecurringTask } from "./RecurringTask";
 
 // Create Users
 let chhorrina = new User(
@@ -79,8 +80,17 @@ let task5 = new Task(
   new Date("2025-06-05"),
   Status.COMPLETED
 );
+
+// set dailyBaseTask
+let dailyBaseTask = new Task(
+  2001,
+  "Daily Standup",
+  "Quick daily team sync",
+  new Date("2025-06-06"), // today's date
+  Status.PENDING
+);
 task3.setDelegatedTo("soklen@.com");
-// Add Tasks to Project
+// Add Tasks to Project----
 oopProject.addTask(task1);
 oopProject.addTask(task2);
 oopProject.addTask(task3);
@@ -115,7 +125,7 @@ chhorrina.addCommentToTask(
 soklen.addCommentToTask(task2, "I will work on this task next week.");
 bunyoung.addCommentToTask(task1, "I have completed my part of the task.");
 
-// Display Comments
+// Display Comments-----------------------
 Task.getAllTasks().forEach((task) => {
   const comments = task.getComments();
   console.log(`\n📌 Task: ${task.getTitle()}`);
@@ -128,7 +138,7 @@ Task.getAllTasks().forEach((task) => {
   }
 });
 
-//  Reminder for Task
+//  Reminder for Task----------------------
 let reminder = new Reminder(task1, new Date("2025-06-04"));
 console.log(
   `⏰ Reminder set for task "${task1.getTitle()}" on ${reminder
@@ -136,7 +146,7 @@ console.log(
     .toDateString()}.`
 );
 
-// Upcoming Tasks
+// Upcoming Tasks-----------------------
 let upcomingTasks = reminder.getUpcomingTasks();
 if (upcomingTasks.length > 0) {
   console.log("\n🔔 Upcoming tasks:");
@@ -159,8 +169,41 @@ Task.getAllTasks().forEach((task) => {
       .toDateString()}] - Status: ${task.getStatus()}`
   );
 });
+//  Recurring task---------
+const dailyMeeting = new RecurringTask(
+  dailyBaseTask,
+  "daily",
+  new Date("2025-06-06")
+);
+console.log("\n📅 DAILY RECURRING TASK TEST");
+console.log(`📌 Base Task: ${dailyMeeting.getTask().getTitle()}`);
+console.log(
+  `⏰ Due Date: ${dailyMeeting.getTask().getDueDate().toDateString()}`
+);
+console.log(
+  `🔁 Next Occurrence: ${dailyMeeting.getNextOccurrence().toDateString()}`
+);
 
-// Labels
+dailyMeeting.updateNextOccurrence();
+console.log("\n📅 After updating daily task:");
+console.log(
+  `⏭️ New Due Date: ${dailyMeeting.getTask().getDueDate().toDateString()}`
+);
+console.log(
+  `🔁 Next Occurrence Updated: ${dailyMeeting
+    .getNextOccurrence()
+    .toDateString()}`
+);
+
+const nextDaily = RecurringTask.generateNextTask(dailyMeeting);
+
+console.log("\n📆 New Daily Recurring Task :");
+console.log(`📝 Task Title: ${nextDaily.getTask().getTitle()}`);
+console.log(`📆 Due Date: ${nextDaily.getTask().getDueDate().toDateString()}`);
+console.log(
+  `🔁 Next Occurrence: ${nextDaily.getNextOccurrence().toDateString()}`
+);
+// Labels---------------------------------------
 const labelUrgent = new Label("URGENT");
 const labelHome = new Label("HOME");
 const labelWork = new Label("WORK");
@@ -179,7 +222,7 @@ allLabels.forEach((label) => {
   });
 });
 
-// Dashboard Summary
+// Dashboard Summary---------------------------------
 console.log("\n📊 DASHBOARD SUMMARY");
 
 // USERS
@@ -304,7 +347,7 @@ Task.getAllTasks().forEach((task) => {
 chhorrina.logout();
 console.log(`🚪 ${chhorrina.getName()} has logged out.`);
 
-// Generate Repor
+// Generate Repor-----------
 const productivityReport = new Report(oopProject);
 productivityReport.generate();
 // Display Report Text
